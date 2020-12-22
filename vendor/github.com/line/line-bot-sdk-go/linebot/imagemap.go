@@ -18,7 +18,8 @@ import (
 	"encoding/json"
 )
 
-// ImagemapActionType typetype ImagemapActionType string
+// ImagemapActionType type
+type ImagemapActionType string
 
 // ImagemapActionType constants
 const (
