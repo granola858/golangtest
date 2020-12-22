@@ -1,4 +1,4 @@
-module github.com/kkdai/LineBotTemplate
+module github.com/granola858/golangtest
 
 go 1.14
 

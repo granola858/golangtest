@@ -1,14 +1,11 @@
 {
-  "name": "LineBotTemplate",
-  "description": "Line Bot API template",
-  "repository": "https://github.com/kkdai/LineBotTemplate",
+  "name": "Golang LINE Bot",
+  "description": "Golang LINE Bot",
+  "repository": "https://github.com/granola858/golangtest",
   "keywords": ["Line", "go", "static"],
   "buildpacks": [
     {
-      "url": "https://github.com/kr/heroku-buildpack-go.git"
-    },
-    {
-      "url": "heroku/go"
+      "url": "https://github.com/granola858/golangtest.git"
     }
   ],
   "env": {
