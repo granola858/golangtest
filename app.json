@@ -5,7 +5,10 @@
   "keywords": ["Line", "go", "static"],
   "buildpacks": [
     {
-      "url": "https://github.com/granola858/golangtest.git"
+      "url": "https://github.com/kr/heroku-buildpack-go.git"
+    },
+    {
+      "url": "heroku/go"
     }
   ],
   "env": {
