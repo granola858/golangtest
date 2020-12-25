@@ -64,7 +64,6 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 func responseHandler(sign string, replyToken string, err error) {
 	var url string
 
-	s := goribot.NewSpider()
 	switch sign {
 	case "水瓶":
 		url = "https://astro.click108.com.tw/daily_10.php?iAstro=10"
@@ -94,38 +93,42 @@ func responseHandler(sign string, replyToken string, err error) {
 		url = ""
 	}
 
-	s.AddTask(
-		goribot.GetReq(url),
-		func(ctx *goribot.Context) {
-			src := ctx.Resp.Text
+	if url != "" {
+		s := goribot.NewSpider()
 
-			//將 HTML 標籤全轉換成小寫
-			re, _ := regexp.Compile("\\<[\\S\\s]+?\\>")
-			src = re.ReplaceAllStringFunc(src, strings.ToLower)
+		s.AddTask(
+			goribot.GetReq(url),
+			func(ctx *goribot.Context) {
+				src := ctx.Resp.Text
 
-			//去除 STYLE
-			re, _ = regexp.Compile("\\<style[\\S\\s]+?\\</style\\>")
-			src = re.ReplaceAllString(src, "")
+				//將 HTML 標籤全轉換成小寫
+				re, _ := regexp.Compile("\\<[\\S\\s]+?\\>")
+				src = re.ReplaceAllStringFunc(src, strings.ToLower)
 
-			//去除 SCRIPT
-			re, _ = regexp.Compile("\\<script[\\S\\s]+?\\</script\\>")
-			src = re.ReplaceAllString(src, "")
+				//去除 STYLE
+				re, _ = regexp.Compile("\\<style[\\S\\s]+?\\</style\\>")
+				src = re.ReplaceAllString(src, "")
 
-			//去除所有尖括號內的 HTML 程式碼，並換成換行符
-			re, _ = regexp.Compile("\\<[\\S\\s]+?\\>")
-			src = re.ReplaceAllString(src, "\n")
+				//去除 SCRIPT
+				re, _ = regexp.Compile("\\<script[\\S\\s]+?\\</script\\>")
+				src = re.ReplaceAllString(src, "")
 
-			//去除連續的換行符
-			re, _ = regexp.Compile("\\s")
-			src = re.ReplaceAllString(src, "")
+				//去除所有尖括號內的 HTML 程式碼，並換成換行符
+				re, _ = regexp.Compile("\\<[\\S\\s]+?\\>")
+				src = re.ReplaceAllString(src, "\n")
 
-			start := strings.Index(src, "今日"+sign+"座解析")
-			end := strings.Index(src, "把屬於你的好運")
+				//去除連續的換行符
+				re, _ = regexp.Compile("\\s")
+				src = re.ReplaceAllString(src, "")
 
-			if _, err = bot.ReplyMessage(replyToken, linebot.NewTextMessage(src[start:end])).Do(); err != nil {
-				log.Print(err)
-			}
-		})
+				start := strings.Index(src, "今日"+sign+"座解析")
+				end := strings.Index(src, "把屬於你的好運")
 
-	s.Run()
+				if _, err = bot.ReplyMessage(replyToken, linebot.NewTextMessage(src[start:end])).Do(); err != nil {
+					log.Print(err)
+				}
+			})
+
+		s.Run()
+	}
 }
