@@ -125,6 +125,7 @@ func responseHandler(sign string, replyToken string, err error) {
 			if _, err = bot.ReplyMessage(replyToken, linebot.NewTextMessage(src[start:end])).Do(); err != nil {
 				log.Print(err)
 			}
-		},
-	)
+		})
+
+	s.Run()
 }
