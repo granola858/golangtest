@@ -97,7 +97,7 @@ func responseHandler(sign string, replyToken string, err error) {
 		s := goribot.NewSpider()
 
 		s.AddTask(
-			goribot.GetReq(url),
+			goribot.GetReq("https://astro.click108.com.tw/daily_9.php?iAstro=9"),
 			func(ctx *goribot.Context) {
 				src := ctx.Resp.Text
 
